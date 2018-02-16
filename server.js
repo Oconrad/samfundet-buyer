@@ -59,7 +59,7 @@ app.post('/get_site', function(req, res) {
     request(url, function (error, response, body) {
         if(body.toLowerCase().indexOf("<div class='purchase-button tickets-sold-out'>") > -1) {
             var headers = req.header('Referer');
-            var redirect_url = headers + "?url=" + url + "&num_members=" + num_members + "&num_non_members=" + num_non_members + "&email_member=" + email_member + "&member_card=" + member_card + "&card_number=" + card_number + "&expiration_month=" + expiration_month + "&expiration_year=" + expiration_year + "&cvc2=" + cvc2;
+            var redirect_url = headers + "?error=true&url=" + url + "&num_members=" + num_members + "&num_non_members=" + num_non_members + "&email_member=" + email_member + "&member_card=" + member_card + "&card_number=" + card_number + "&expiration_month=" + expiration_month + "&expiration_year=" + expiration_year + "&cvc2=" + cvc2;
             if(try_till_fail == "on") {
                 redirect_url += "#try_again";
             }
@@ -111,6 +111,19 @@ app.post('/get_site', function(req, res) {
                     var cvc2 = "' + cvc2 + '"; \
                 </script>';
                 body2 += "<script src='ticket.js'></script>";
+                body2 += "<script>$('body').css('overflow', 'hidden');</script>";
+                body2 += "<div class='buying-in-progress' style='position: absolute; \
+                    top: 0px; \
+                    left: 0px; \
+                    height: 100vh; \
+                    width: 100vw; \
+                    background: rgba(0,0,0,.8); \
+                    color: white; \
+                    display: flex; \
+                    flex-direction: column; \
+                    justify-content: center; \
+                    align-items: center; \
+                    font-size: 2rem;'>Buying in progress, please wait..</div>"
                 body2 += "</html>";
                 res.send(body2);
             });

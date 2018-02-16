@@ -60,8 +60,12 @@
         $("#expiration_year").val(params.expiration_year);
         $("#cvc2").val(params.cvc2);
         $("#url").val(params.url);
+        if(params.error == true || params.error == "true") {
+            $("body").prepend("<h3>Not opened or sold out</h3>");
+        }
         if(window.location.hash == "#try_again") {
             $("#try").prop("checked", true);
+            $("body").prepend("<h1>Trying again</h1>");
             setTimeout(function() {
                 $("#submit").trigger("click");
             }, 1000);
