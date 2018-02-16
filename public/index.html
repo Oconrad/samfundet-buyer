@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Samfundet ticketbuyer</title>
+        <style>
+            form {
+                display: flex;
+                flex-direction: column;
+            }
+        </style>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <form method="post" action="/get_site">
+            <label for="email_or_membercard">Medlemskortnummer eller email</label>
+            <input type="text" name="email_or_membercard" id="email_or_membercard" />
+            <label for="member_card">Medlemskort?</label>
+            <input type="checkbox" name="member_card" id="member_card" />
+            <label for="num_members"># medlemmer</label>
+            <input type="number" name="num_members" id="num_members" />
+            <label for="num_non_members"># ikke medlemmer</label>
+            <input type="number" name="num_non_members" id="num_non_members" />
+            <label for="card_number">Kortnummer</label>
+            <input type="text" name="card_number" id="card_number" minlength="16" maxlength="16"/>
+            <label for="expiration_month">mnd</label>
+            <input type="number" min="1" max="12" name="expiration_month" id="expiration_month" />
+            <label for="expiration_year">år</label>
+            <input type="number" name="expiration_year" id="expiration_year" min="18" />
+            <label for="cvc2">cvc2</label>
+            <input type="text" name="cvc2" id="cvc2" maxlength="3" />
+            <label for="url">url</label>
+            <input type="text" name="url" id="url" autocomplete="off" />
+            <label for="try">Try till close tab</label>
+            <input type="checkbox" name="try_infinite" id="try" />
+            <input type="submit" id="submit" />
+        </form>
+        <script>
+        var parseQueryString = function() {
+
+            var str = window.location.search;
+            var objURL = {};
+
+            str.replace(
+                new RegExp( "([^?=&]+)(=([^&]*))?", "g" ),
+                function( $0, $1, $2, $3 ){
+                    objURL[ $1 ] = $3;
+                }
+            );
+            return objURL;
+        };
+
+        var params = parseQueryString();
+
+        $("#email_or_membercard").val(params.email_member);
+        $("#member_card").prop("checked", params.member_card == "true");
+        $("#num_members").val(params.num_members);
+        $("#num_non_members").val(params.num_non_members);
+        $("#card_number").val(params.card_number);
+        $("#expiration_month").val(params.expiration_month);
+        $("#expiration_year").val(params.expiration_year);
+        $("#cvc2").val(params.cvc2);
+        $("#url").val(params.url);
+        if(window.location.hash == "#try_again") {
+            $("#try").prop("checked", true);
+            setTimeout(function() {
+                $("#submit").trigger("click");
+            }, 1000);
+        }
+        </script>
+    </body>
+</html>
