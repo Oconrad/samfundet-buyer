@@ -15,3 +15,7 @@ Never use this over an open network, since this involves sending debitcard numbe
 Since the code is more than shit, don't expect it to be bug-free.
 
 Good luck with purchases!
+
+### Screenshot
+
+![preview](https://puu.sh/zp1Dp/a2c31a58d4.png)
