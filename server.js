@@ -100,11 +100,12 @@ app.post('/get_site', function(req, res) {
     request(url, function (error, response, body) {
         if(body.toLowerCase().indexOf("<div class='purchase-button tickets-sold-out'>") > -1) {
             //var headers = req.header('Referer');
-            var redirect_url = headers + "?error=true&url=" + url + "&num_members=" + num_members + "&num_non_members=" + num_non_members + "&email_member=" + email_member + "&member_card=" + member_card + "&card_number=" + card_number + "&expiration_month=" + expiration_month + "&expiration_year=" + expiration_year + "&cvc2=" + cvc2;
-            if(try_till_fail == "on") {
+            //var redirect_url = headers + "?error=true&url=" + url + "&num_members=" + num_members + "&num_non_members=" + num_non_members + "&email_member=" + email_member + "&member_card=" + member_card + "&card_number=" + card_number + "&expiration_month=" + expiration_month + "&expiration_year=" + expiration_year + "&cvc2=" + cvc2;
+            /*if(try_till_fail == "on") {
                 redirect_url += "#try_again";
             }
-            res.redirect(redirect_url);
+            res.redirect(redirect_url);*/
+            res.send("failed");
         } else {
             body = body.replace("</html>", "");
             request(url + "/", function(error, response, body2) {
