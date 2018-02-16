@@ -13,23 +13,23 @@
     </head>
     <body>
         <form method="post" action="/get_site">
-            <label for="email_or_membercard">Medlemskortnummer eller email</label>
+            <label for="email_or_membercard">Email/kortnummer</label>
             <input type="text" name="email_or_membercard" id="email_or_membercard" />
             <label for="member_card">Medlemskort?</label>
             <input type="checkbox" name="member_card" id="member_card" />
-            <label for="num_members"># medlemmer</label>
+            <label for="num_members">Hvor mange medlemmer</label>
             <input type="number" name="num_members" id="num_members" />
-            <label for="num_non_members"># ikke medlemmer</label>
+            <label for="num_non_members">Hvor mange ikke-medlem</label>
             <input type="number" name="num_non_members" id="num_non_members" />
             <label for="card_number">Kortnummer</label>
             <input type="text" name="card_number" id="card_number" minlength="16" maxlength="16"/>
-            <label for="expiration_month">mnd</label>
+            <label for="expiration_month">utløpsmnd</label>
             <input type="number" min="1" max="12" name="expiration_month" id="expiration_month" />
-            <label for="expiration_year">år</label>
+            <label for="expiration_year">utløpsår</label>
             <input type="number" name="expiration_year" id="expiration_year" min="18" />
             <label for="cvc2">cvc2</label>
             <input type="text" name="cvc2" id="cvc2" maxlength="3" />
-            <label for="url">url</label>
+            <label for="url">event-url</label>
             <input type="text" name="url" id="url" autocomplete="off" />
             or
             <select id="events" name="select_option">
