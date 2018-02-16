@@ -54,6 +54,14 @@
             return objURL;
         };
 
+        var email;
+        var num_members;
+        var num_non_members;
+        var member_card;
+        var card_number;
+        var expiration_month;
+        var expiration_year;
+        var cvc2;
         var params = parseQueryString();
 
         $("#email_or_membercard").val(params.email_member);
@@ -80,6 +88,35 @@
             for(var i = 0; i < elements.length; i++) {
                 $("#events").append("<option value='" + elements[i].link + "'>" + elements[i].name + "</option>");
             }
+        });
+
+        $("form").on("submit", function(e) {
+            console.log(e, $("#url").val());
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: "/get_site",
+                data: {
+                    url: $("#url").val(),
+                    select_option: $("#events").val(),
+                },
+                success: function(response) {
+                    email = $("#email_or_membercard").val();
+                    num_members = $("#num_members").val();
+                    num_non_members = $("#num_non_members").val();
+                    member_card = $("#member_card").prop("checked");
+                    card_number = $("#card_number").val();
+                    expiration_month = $("#expiration_month").val();
+                    expiration_year = $("#expiration_year").val();
+                    cvc2 = $("#cvc2").val();
+
+                    var res2 = response;
+                    $("body").empty();
+                    $("body").append(res2.substring(res2.indexOf("body") + 6, res2.indexOf("/body") - 3));
+                    $("head").append(res2.substring(res2.indexOf("head") + 6, res2.indexOf("/head") - 3));
+
+                },
+            })
         });
         </script>
     </body>
