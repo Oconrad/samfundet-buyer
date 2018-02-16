@@ -8,6 +8,7 @@
                 flex-direction: column;
             }
         </style>
+        <meta charset="utf-8" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     </head>
     <body>
@@ -30,6 +31,10 @@
             <input type="text" name="cvc2" id="cvc2" maxlength="3" />
             <label for="url">url</label>
             <input type="text" name="url" id="url" autocomplete="off" />
+            or
+            <select id="events" name="select_option">
+                <option value="none">Choose event</option>
+            </select>
             <label for="try">Try till close tab</label>
             <input type="checkbox" name="try_infinite" id="try" />
             <input type="submit" id="submit" />
@@ -70,6 +75,12 @@
                 $("#submit").trigger("click");
             }, 1000);
         }
+
+        $().ready(function() {
+            for(var i = 0; i < elements.length; i++) {
+                $("#events").append("<option value='" + elements[i].link + "'>" + elements[i].name + "</option>");
+            }
+        });
         </script>
     </body>
 </html>

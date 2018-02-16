@@ -2,26 +2,57 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var request = require('request');
+var fs = require('fs');
+var path = require('path');
+
 app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
 }));
 
-app.use(express.static('public'));
+app.use("/public", express.static("public"));
+
+app.get("/", function(req, res) {
+    var filePath = path.join(__dirname, '/public/index.html');
+    fs.readFile(filePath, {encoding: 'utf-8'}, function(err,data){
+        if (!err) {
+            request('https://samfundet.no/arrangement', function(error, response, body) {
+                var occurences = getIndicesOf("event-title", body);
+                var elements = [];
+                for(var i = 0; i < occurences.length; i++) {
+                    var start = occurences[i]+14;
+                    var end = body.substring(start).indexOf("</td>");
+                    var this_element = body.substring(start, start + end);
+                    var name = this_element.substring(this_element.indexOf(">") + 1, this_element.length - 5);
+                    var start_of_link = this_element.indexOf("href") + 6;
+                    var end_of_link = this_element.indexOf(">") - 10;
+                    var link = "https://samfundet.no" + this_element.substring(start_of_link, start_of_link + end_of_link);
+                    elements.push({
+                        name: name,
+                        link: link
+                    });
+                }
+                data = data.replace("</html>", "");
+                data += "<script>var elements = " + JSON.stringify(elements) + ";</script>";
+                data += "</html>";
+                res.writeHead(200, {'Content-Type': 'text/html'});
+                res.write(data);
+                res.end();
+            });
+        } else {
+            res.send(404);
+        }
+    });
+});
 
 app.get('/arrangement/*', function(req, res) {
     request("https://samfundet.no" + req.url, function(error, response, body) {
         var occurences = getIndicesOf("<div class='container'", body);
         var end = body.indexOf("<div id='sticky-footer-wrapper-footer'></div>");
         var to_send = body.substring(occurences[1], end + 45);
-        var occurences = getIndicesOf("/assets", to_send);
-        for(var i = 0; i < occurences.length; i++) {
-            var to_add = "https://samfundet.no";
-            var offset = to_add.length * i;
-            var before = to_send.substring(0, occurences[i] + offset);
-            var after = to_send.substring(occurences[i] + offset);
-            to_send = before + to_add + after;
-        }
+
+        to_send = replace_url("/assets", to_send);
+
         to_send += "<script> \
             input_values(); \
             $($('input[name=\"commit\"]')[1]).trigger('click'); \
@@ -43,7 +74,11 @@ app.get('/arrangement/*', function(req, res) {
         </script>';
         res.send(to_send);
     });
-})
+});
+
+app.get('/get_site', function(req, res) {
+    res.redirect("http://localhost:3000");
+});
 
 app.post('/get_site', function(req, res) {
     var url = req.body['url'];
@@ -56,6 +91,10 @@ app.post('/get_site', function(req, res) {
     var expiration_year = req.body['expiration_year'];
     var cvc2 = req.body['cvc2'];
     var try_till_fail = req.body['try_infinite'];
+    var select_option = req.body['select_option'];
+    if(select_option != "none") {
+        url = select_option;
+    }
     request(url, function (error, response, body) {
         if(body.toLowerCase().indexOf("<div class='purchase-button tickets-sold-out'>") > -1) {
             var headers = req.header('Referer');
@@ -64,39 +103,13 @@ app.post('/get_site', function(req, res) {
                 redirect_url += "#try_again";
             }
             res.redirect(redirect_url);
-            //res.send("Utsolgt..");
         } else {
             body = body.replace("</html>", "");
             request(url + "/", function(error, response, body2) {
-                /*body += body2;
-                body += "</html>";*/
 
-                var occurences = getIndicesOf("/assets", body2);
-                for(var i = 0; i < occurences.length; i++) {
-                    var to_add = "https://samfundet.no";
-                    var offset = to_add.length * i;
-                    var before = body2.substring(0, occurences[i] + offset);
-                    var after = body2.substring(occurences[i] + offset);
-                    body2 = before + to_add + after;
-                }
-
-                var occurences = getIndicesOf("/arrangement", body2);
-                for(var i = 0; i < occurences.length; i++) {
-                    var to_add = "https://samfundet.no";
-                    var offset = to_add.length * i;
-                    var before = body2.substring(0, occurences[i] + offset);
-                    var after = body2.substring(occurences[i] + offset);
-                    body2 = before + to_add + after;
-                }
-
-                var occurences = getIndicesOf("/upload", body2);
-                for(var i = 0; i < occurences.length; i++) {
-                    var to_add = "https://samfundet.no";
-                    var offset = to_add.length * i;
-                    var before = body2.substring(0, occurences[i] + offset);
-                    var after = body2.substring(occurences[i] + offset);
-                    body2 = before + to_add + after;
-                }
+                body2 = replace_url("/assets", body2);
+                body2 = replace_url("/arrangement", body2);
+                body2 = replace_url("/upload", body2);
 
                 body2 = body2.replace("</html>", "");
                 body2 += '<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>';
@@ -110,7 +123,7 @@ app.post('/get_site', function(req, res) {
                     var expiration_year = "' + expiration_year + '"; \
                     var cvc2 = "' + cvc2 + '"; \
                 </script>';
-                body2 += "<script src='ticket.js'></script>";
+                body2 += "<script src='public/ticket.js'></script>";
                 body2 += "<script>$('body').css('overflow', 'hidden');</script>";
                 body2 += "<div class='buying-in-progress' style='position: absolute; \
                     top: 0px; \
@@ -130,6 +143,19 @@ app.post('/get_site', function(req, res) {
         }
     });
 });
+
+function replace_url(_with, body) {
+    var occurences = getIndicesOf(_with, body);
+    for(var i = 0; i < occurences.length; i++) {
+        var to_add = "https://samfundet.no";
+        var offset = to_add.length * i;
+        var before = body.substring(0, occurences[i] + offset);
+        var after = body.substring(occurences[i] + offset);
+        body = before + to_add + after;
+    }
+
+    return body;
+}
 
 function getIndicesOf(searchStr, str, caseSensitive) {
     var searchStrLen = searchStr.length;
