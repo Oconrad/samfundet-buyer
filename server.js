@@ -5,14 +5,18 @@ var request = require('request');
 var fs = require('fs');
 var path = require('path');
 
+var cookieParser = require('cookie-parser')
 app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
 }));
+app.use(cookieParser());
+
 
 app.use("/public", express.static("public"));
 
 app.get("/", function(req, res) {
+    res.clearCookie("_session_id");
     var filePath = path.join(__dirname, '/public/index.html');
     fs.readFile(filePath, {encoding: 'utf-8'}, function(err,data){
         if (!err) {
@@ -93,7 +97,11 @@ app.post('/get_site', function(req, res) {
         } else {
             body = body.replace("</html>", "");
             request(url + "/", function(error, response, body2) {
-
+                var _cookie = response.headers['set-cookie'][0];
+                var cookie_value = _cookie.split("=")[1].split(";")[0];
+                res.cookie('_session_id', cookie_value, {
+                    httpOnly: true,
+                });
                 body2 = replace_url("/assets", body2);
                 body2 = replace_url("/arrangement", body2);
                 body2 = replace_url("/upload", body2);
