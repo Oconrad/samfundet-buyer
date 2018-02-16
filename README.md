@@ -12,4 +12,6 @@ If you want the app to automatically retry check the "Try till close app" (when 
 
 Never use this over an open network, since this involves sending debitcard number, and all credentials to perform a purchase with it. The publisher of this code relieves himself from all responsibility for lost money, so use this app with caution. No money will be returned if something goes awry.
 
+Since the code is more than shit, don't expect it to be bug-free.
+
 Good luck with purchases!
