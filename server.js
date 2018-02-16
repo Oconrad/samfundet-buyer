@@ -81,17 +81,7 @@ app.get('/get_site', function(req, res) {
 });
 
 app.post('/get_site', function(req, res) {
-    console.log(req.body);
     var url = req.body['url'];
-    /*var num_members = req.body['num_members'];
-    var num_non_members = req.body['num_non_members'];
-    var email_member = req.body['email_or_membercard'];
-    var member_card = req.body['member_card'] == "on";
-    var card_number = req.body['card_number'];
-    var expiration_month = req.body['expiration_month'];
-    var expiration_year = req.body['expiration_year'];
-    var cvc2 = req.body['cvc2'];
-    var try_till_fail = req.body['try_infinite'];*/
     var select_option = req.body['select_option'];
     if(select_option != "none") {
         url = select_option;
@@ -99,12 +89,6 @@ app.post('/get_site', function(req, res) {
 
     request(url, function (error, response, body) {
         if(body.toLowerCase().indexOf("<div class='purchase-button tickets-sold-out'>") > -1) {
-            //var headers = req.header('Referer');
-            //var redirect_url = headers + "?error=true&url=" + url + "&num_members=" + num_members + "&num_non_members=" + num_non_members + "&email_member=" + email_member + "&member_card=" + member_card + "&card_number=" + card_number + "&expiration_month=" + expiration_month + "&expiration_year=" + expiration_year + "&cvc2=" + cvc2;
-            /*if(try_till_fail == "on") {
-                redirect_url += "#try_again";
-            }
-            res.redirect(redirect_url);*/
             res.send("failed");
         } else {
             body = body.replace("</html>", "");
@@ -117,16 +101,6 @@ app.post('/get_site', function(req, res) {
                 body2 = body2.replace("</html>", "");
                 body2 = body2.replace("</body>", "");
                 body2 += '<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>';
-                /*body2 += '<script> \
-                    var email = "' + email_member + '"; \
-                    var num_members = "' + num_members + '"; \
-                    var num_non_members = "' + num_non_members + '"; \
-                    var member_card = "' + member_card + '"; \
-                    var card_number = "' + card_number + '"; \
-                    var expiration_month = "' + expiration_month + '"; \
-                    var expiration_year = "' + expiration_year + '"; \
-                    var cvc2 = "' + cvc2 + '"; \
-                </script>';*/
                 body2 += "<script src='public/ticket.js'></script>";
                 body2 += "<script>$('body').css('overflow', 'hidden');</script>";
                 body2 += "<div class='buying-in-progress' style='position: absolute; \
@@ -179,4 +153,4 @@ function getIndicesOf(searchStr, str, caseSensitive) {
     return indices;
 }
 
-app.listen(3000);
+app.listen(3001);
