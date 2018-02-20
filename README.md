@@ -18,4 +18,4 @@ Good luck with purchases!
 
 ### Screenshot
 
-![preview](https://puu.sh/zrN23/a3fbc90f71.png)
+![preview](https://puu.sh/zrSJy/c41bac64ca.png)
