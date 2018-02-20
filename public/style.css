@@ -58,5 +58,10 @@ select {
 @media only screen and (max-device-width: 600px){
     body {
         width: auto;
+        box-shadow: none;
+    }
+
+    html {
+        background: white;
     }
 }
