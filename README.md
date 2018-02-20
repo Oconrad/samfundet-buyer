@@ -6,9 +6,9 @@ To start, run
 
 ``` $ npm install && npm start ```
 
-Then navigate to http://localhost:3000, and enter your credentials, cardnumber, email, and url for the show (e.g. https://samfundet.no/arrangement/1475-elektrosamfundet).
+Then navigate to http://localhost:3001, and enter your credentials, cardnumber, email, and url for the show (e.g. https://samfundet.no/arrangement/1475-elektrosamfundet).
 
-If you want the app to automatically retry check the "Try till close app" (when this is enabled, you have to close the tab to break the loop, or be quick with unchecking the checkbox before it reloads).
+If you want the app to automatically retry check the "Prøv uendelig til du lukker vinduet" (when this is enabled, you have to close the tab to break the loop, or be quick with unchecking the checkbox before it reloads).
 
 The publisher of this code removes himself from all responsibility for lost money, so use this app with caution. No money will be returned if something goes awry. Use this app on your own responsibility.
 
