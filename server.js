@@ -21,20 +21,27 @@ app.get("/", function(req, res) {
     fs.readFile(filePath, {encoding: 'utf-8'}, function(err,data){
         if (!err) {
             request('https://samfundet.no/arrangement', function(error, response, body) {
-                var occurences = getIndicesOf("event-title", body);
+                var occurences = getIndicesOf("<tr", body);
                 var elements = [];
-                for(var i = 0; i < occurences.length; i++) {
-                    var start = occurences[i]+14;
-                    var end = body.substring(start).indexOf("</td>");
-                    var this_element = body.substring(start, start + end);
-                    var name = this_element.substring(this_element.indexOf(">") + 1, this_element.length - 5);
-                    var start_of_link = this_element.indexOf("href") + 6;
-                    var end_of_link = this_element.indexOf(">") - 10;
-                    var link = "https://samfundet.no" + this_element.substring(start_of_link, start_of_link + end_of_link);
-                    elements.push({
-                        name: name,
-                        link: link
-                    });
+                for(var i = 4; i < occurences.length; i++) {
+                    var end = body.substring(occurences[i]).indexOf("</tr>");
+                    var this_element = body.substring(occurences[i], occurences[i] + end);
+                    if(this_element.toLowerCase().indexOf("gratis inngang") > -1 || this_element.toLowerCase().indexOf("billett inkludert i inngang") > -1 || this_element.toLowerCase().indexOf("utsolgt") > -1) {
+                        continue;
+                    } else {
+                        var price_start = this_element.indexOf('event-price');
+                        var price_text = this_element.substring(price_start + 14, this_element.substring(price_start).indexOf("</td>") + price_start);
+                        var start_info = this_element.indexOf('<a href="/arrangement/');
+                        var start_link = this_element.substring(start_info);
+                        var end_info = this_element.substring(start_info).indexOf("</a>") + start_info;
+                        this_element = this_element.substring(start_info, end_info);
+                        var link = "https://samfundet.no" + this_element.substring(this_element.indexOf('href="') + 6, this_element.indexOf('">'));
+                        var name = this_element.substring(this_element.indexOf('">') + 2);
+                        elements.push({
+                            name: name + " (" + price_text + ")",
+                            link: link
+                        });
+                    }
                 }
                 data = data.replace("</html>", "");
                 data += "<script>var elements = " + JSON.stringify(elements) + ";</script>";
