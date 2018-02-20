@@ -23,6 +23,11 @@
                 box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
             }
 
+            .buyer-loader {
+                width: 100px !important;
+                height: 100px !important;
+            }
+
             #top-title {
                 text-align: center;
                 padding-top: 40px;
@@ -92,6 +97,9 @@
             <h3>Legal disclaimer: The developer takes no responsibility in any lost money or faulty transactions. Use at your own risk.</h3>
         </div>
         <script>
+        if(window.location.hash != "") {
+            window.location.hash = "";
+        }
         var parseQueryString = function() {
 
             var str = window.location.search;
@@ -194,6 +202,22 @@
 
                         var res2 = response;
                         $("body").empty();
+                        $("body").append('\<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"\>\</script\>');
+                        $("body").append('\<script src="public/ticket.js"\>\</script\>');
+                        $("body").append("\<script\>$('body').css('overflow', 'hidden');\</script\>");
+                        $("body").append('\<div class="buying-in-progress" style="position: absolute; \
+                            top: 0px; \
+                            left: 0px; \
+                            z-index: 9; \
+                            height: 100vh; \
+                            width: 100vw; \
+                            background: rgba(0,0,0,.8); \
+                            color: white; \
+                            display: flex; \
+                            flex-direction: column; \
+                            justify-content: center; \
+                            align-items: center; \
+                            font-size: 2rem;">Buying in progress, please wait..<br><img class="buyer-loader" src="public/load.gif" alt="loader" /\>\</div\>');
                         $("body").append(res2.substring(res2.indexOf("body") + 6, res2.indexOf("/body") - 3));
                         $("head").append(res2.substring(res2.indexOf("head") + 6, res2.indexOf("/head") - 3));
                     }

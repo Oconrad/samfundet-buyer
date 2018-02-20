@@ -66,23 +66,8 @@ app.get('/arrangement/*', function(req, res) {
 
         to_send += "<script> \
             input_values(); \
-            $($('input[name=\"commit\"]')[1]).trigger('click'); \
+            run_change_click(); \
         </script>";
-        to_send += '<script> \
-        setTimeout(function(){ \
-            $("#ticket_type_paper").trigger("change"); \
-            $("#ticket_type_card").trigger("change"); \
-            $("#cardnumber").trigger("change"); \
-            $("#email").trigger("change"); \
-            $($("select")[0]).trigger("change"); \
-            $("#ticket_type_paper").trigger("change"); \
-            $("#email").trigger("change"); \
-            $("#ccno").trigger("change"); \
-            $($("select")[2]).trigger("change"); \
-            $($("select")[3]).trigger("change"); \
-            $("#cvc2").trigger("change"); \
-        }, 50); \
-        </script>';
         res.send(to_send);
     });
 });
@@ -116,25 +101,9 @@ app.post('/get_site', function(req, res) {
                 body = replace_url("/arrangement", body);
                 body = replace_url("/upload", body);
 
-                body = body.replace("</html>", "");
+                /*body = body.replace("</html>", "");
                 body = body.replace("</body>", "");
-                body += '<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>';
-                body += "<script src='public/ticket.js'></script>";
-                body += "<script>$('body').css('overflow', 'hidden');</script>";
-                body += "<div class='buying-in-progress' style='position: absolute; \
-                    top: 0px; \
-                    left: 0px; \
-                    height: 100vh; \
-                    width: 100vw; \
-                    background: rgba(0,0,0,.8); \
-                    color: white; \
-                    display: flex; \
-                    flex-direction: column; \
-                    justify-content: center; \
-                    align-items: center; \
-                    font-size: 2rem;'>Buying in progress, please wait..</div>"
-                body += "</body>";
-                body += "</html>";
+                body += "</html>";*/
                 res.send(body);
             });
         }
