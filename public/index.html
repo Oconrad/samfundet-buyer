@@ -6,6 +6,13 @@
         <link rel="stylesheet" href="public/style.css" />
         <meta charset="utf-8" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-114414192-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-114414192-1');
+        </script>
     </head>
     <body>
         <h1 id="top-title">Samfundet autobuyer</h1>
@@ -152,7 +159,6 @@
 
                         var res2 = response;
                         $("body").empty();
-                        $("body").append('\<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"\>\</script\>');
                         $("body").append('\<script src="public/ticket.js"\>\</script\>');
                         $("body").append("\<script\>$('body').css('overflow', 'hidden');\</script\>");
                         $("body").append('\<div class="buying-in-progress" style="position: absolute; \
