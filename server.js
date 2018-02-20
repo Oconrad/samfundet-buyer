@@ -44,7 +44,7 @@ app.get("/", function(req, res) {
                     }
                 }
                 data = data.replace("</html>", "");
-                data += "<script>var elements = " + JSON.stringify(elements) + ";</script>";
+                data += "<script>var elements = { 'samfundet-events': " + JSON.stringify(elements) + " };</script>";
                 data += "</html>";
                 res.writeHead(200, {'Content-Type': 'text/html'});
                 res.write(data);
