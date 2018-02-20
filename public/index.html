@@ -64,21 +64,21 @@
         <div class="container">
             <form method="post" action="/get_site">
                 <label for="email_or_membercard" title="Hvis du ikke krysser av på checkboksen under, skriver du inn eposten din her. Hvis du heller vil ha billetten billettløst, skriv inn medlemsnummeret ditt her, og kryss av på checkboksen under.">Email/medlemsnummer   ?</label>
-                <input type="text" name="email_or_membercard" id="email_or_membercard" />
+                <input type="text" name="email_or_membercard" id="email_or_membercard" required />
                 <label for="member_card" title="Hvis du skrev inn medlemsnummere ditt over, kryss av her.">Medlemskort   ?</label>
                 <input type="checkbox" name="member_card" id="member_card" />
                 <label for="num_members" title="Hvor mange medlemsbilletter du vil kjøpe">Hvor mange medlemmer   ?</label>
-                <input type="number" name="num_members" id="num_members" />
+                <input type="number" name="num_members" id="num_members" value="0" min="0" required />
                 <label for="num_non_members" title="Hvor mange ikke-medlemsbilletter du har lyst til å kjøpe.">Hvor mange ikke-medlem   ?</label>
-                <input type="number" name="num_non_members" id="num_non_members" />
+                <input type="number" name="num_non_members" id="num_non_members" value="0" min="0" required />
                 <label for="card_number" title="Kortnummeret på bankkortet ditt">Kortnummer   ?</label>
-                <input type="text" name="card_number" id="card_number" minlength="16" maxlength="16"/>
+                <input type="text" name="card_number" id="card_number" minlength="16" maxlength="16" required />
                 <label for="expiration_month" title="Utløpsmåned på bankkortet ditt">Utløpsmnd   ?</label>
-                <input type="number" min="1" max="12" name="expiration_month" id="expiration_month" />
+                <input type="number" min="1" max="12" name="expiration_month" id="expiration_month" required />
                 <label for="expiration_year" title="Utløpsåret på bankkortet ditt">Utløpsår   ?</label>
-                <input type="number" name="expiration_year" id="expiration_year" min="18" />
+                <input type="number" name="expiration_year" id="expiration_year" min="18" required />
                 <label for="cvc2" title="CVC2 nummeret på bankkortet ditt">CVC2   ?</label>
-                <input type="text" name="cvc2" id="cvc2" maxlength="3" />
+                <input type="text" name="cvc2" id="cvc2" maxlength="3" required />
                 <label for="url" title="Paste event-url'en til det eventet du vil kjøpe her, eller velg fra dropdownmenyen under.">event-url   ?</label>
                 <input type="text" name="url" id="url" autocomplete="off" />
                 eller
@@ -117,7 +117,7 @@
         var params = parseQueryString();
         var times_tried = 1;
 
-        $("#email_or_membercard").val(params.email_member);
+        /*$("#email_or_membercard").val(params.email_member);
         $("#member_card").prop("checked", params.member_card == "true");
         $("#num_members").val(params.num_members);
         $("#num_non_members").val(params.num_non_members);
@@ -125,7 +125,7 @@
         $("#expiration_month").val(params.expiration_month);
         $("#expiration_year").val(params.expiration_year);
         $("#cvc2").val(params.cvc2);
-        $("#url").val(params.url);
+        $("#url").val(params.url);*/
         if(params.error == true || params.error == "true") {
             $(".container").prepend("<h3>Not opened or sold out</h3>");
         }

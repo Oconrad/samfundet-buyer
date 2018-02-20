@@ -95,8 +95,6 @@ app.post('/get_site', function(req, res) {
         if(body.toLowerCase().indexOf("<div class='purchase-button tickets-sold-out'>") > -1) {
             res.send("failed");
         } else {
-            //body = body.replace("</html>", "");
-
             request(url + "/buy", function(error, response, body2) {
                 if(response.request.uri.href != url + "/buy") {
                     res.send("failed");
