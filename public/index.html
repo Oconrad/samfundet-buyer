@@ -28,12 +28,20 @@
                 <input type="number" name="num_non_members" id="num_non_members" value="0" min="0" required />
                 <label for="card_number" title="Kortnummeret på bankkortet ditt">Kortnummer   ?</label>
                 <input type="text" name="card_number" id="card_number" minlength="16" maxlength="16" required />
-                <label for="expiration_month" title="Utløpsmåned på bankkortet ditt">Utløpsmnd   ?</label>
-                <input type="number" min="1" max="12" name="expiration_month" id="expiration_month" required />
-                <label for="expiration_year" title="Utløpsåret på bankkortet ditt">Utløpsår   ?</label>
-                <input type="number" name="expiration_year" id="expiration_year" min="18" required />
-                <label for="cvc2" title="CVC2 nummeret på bankkortet ditt">CVC2   ?</label>
-                <input type="text" name="cvc2" id="cvc2" maxlength="3" required />
+                <div class="card-info">
+                    <div>
+                        <label for="expiration_month" title="Utløpsmåned på bankkortet ditt">Utløpsmnd   ?</label>
+                        <input type="number" min="1" max="12" name="expiration_month" id="expiration_month" required />
+                    </div>
+                    <div>
+                        <label for="expiration_year" title="Utløpsåret på bankkortet ditt">Utløpsår   ?</label>
+                        <input type="number" name="expiration_year" id="expiration_year" min="18" required />
+                    </div>
+                    <div>
+                        <label for="cvc2" title="CVC2 nummeret på bankkortet ditt">CVC2   ?</label>
+                        <input type="text" name="cvc2" id="cvc2" maxlength="3" required />
+                    </div>
+                </div>
                 <label for="url" title="Paste event-url'en til det eventet du vil kjøpe her, eller velg fra dropdownmenyen under.">event-url   ?</label>
                 <input type="text" name="url" id="url" autocomplete="off" />
                 eller
