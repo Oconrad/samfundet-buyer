@@ -26,7 +26,7 @@ app.get("/", function(req, res) {
                 for(var i = 4; i < occurences.length; i++) {
                     var end = body.substring(occurences[i]).indexOf("</tr>");
                     var this_element = body.substring(occurences[i], occurences[i] + end);
-                    if(this_element.toLowerCase().indexOf("gratis inngang") > -1 || this_element.toLowerCase().indexOf("billett inkludert i inngang") > -1 || this_element.toLowerCase().indexOf("utsolgt") > -1) {
+                    if(this_element.toLowerCase().indexOf("gratis inngang") > -1 || this_element.toLowerCase().indexOf("billett inkludert i inngang") > -1 || this_element.toLowerCase().indexOf("utsolgt") > -1 || this_element.toLowerCase().indexOf("class='area'") > -1) {
                         continue;
                     } else {
                         var price_start = this_element.indexOf('event-price');

@@ -124,6 +124,22 @@
             for(var i = 0; i < elements["samfundet-events"].length; i++) {
                 $("#samfundet-events").append("<option value='" + elements["samfundet-events"][i].link + "'>" + elements["samfundet-events"][i].name + "</option>");
             }
+
+            $("#events").on("change", function(e) {
+            	if($("#events").val() != "none") {
+                    $("#url").attr("disabled", true);
+                } else {
+                    $("#url").attr("disabled", false);
+                }
+            });
+
+            $('#url').on('input', function() {
+                if($("#url").val() != "") {
+                    $("#events").attr("disabled", true);
+                } else {
+                    $("#events").attr("disabled", false);
+                }
+            });
         });
 
         $("form").on("submit", function(e) {
