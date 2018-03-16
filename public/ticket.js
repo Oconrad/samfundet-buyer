@@ -5,6 +5,9 @@ function input_values() {
     var child_2 = $($("select")[1]).children();
     num_members = parseInt(num_members);
     num_non_members = parseInt(num_non_members);
+    expiration_month = parseInt(expiration_month);
+    expiration_year = parseInt(expiration_year);
+    cvc2 = parseInt(cvc2);
 
     for(var i = 0; i < child_1.length; i++) {
     	if(max_1 < parseInt($(child_1[i]).val())) {
@@ -35,7 +38,7 @@ function input_values() {
     $($("select")[1]).val(num_non_members);
     $($("select")[1]).trigger("change");
     add_mail_or_number();
-    console.log(email, member_card);
+
     $("#ccno").val(card_number);
     $("#ccno").trigger("change");
     $($("select")[2]).val(expiration_month);
